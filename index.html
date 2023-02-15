@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function loadXMLDoc(dname)
+        {
+        if (window.ActiveXObject)
+        {
+        xhttp=new ActiveXObject("Msxml2.XMLHTTP.3.0");
+        }
+        else
+        {
+        xhttp=new XMLHttpRequest();
+        }
+        xhttp.open("GET",dname,false);
+        xhttp.send("");
+        return xhttp.responseXML;
+        }
+        
+        function displayResult()
+        {
+        xml=loadXMLDoc("cdcatalog.xml");
+        xsl=loadXMLDoc("cdcatalog.xsl");
+        // code for IE
+        if (window.ActiveXObject)
+        {
+        ex=xml.transformNode(xsl);
+        document.getElementById("example").innerHTML=ex;
+        }
+        // code for Mozilla, Firefox, Opera, etc.
+        else if (document.implementation && document.implementation.createDocument)
+        {
+        xsltProcessor=new XSLTProcessor();
+        xsltProcessor.importStylesheet(xsl);
+        resultDocument = xsltProcessor.transformToFragment(xml,document);
+        document.getElementById("example").appendChild(resultDocument);
+        }
+        }
+    </script>
+</head>
+<body onload="displayResult()">
+    <div id="example" />
+</body>
+</html>
