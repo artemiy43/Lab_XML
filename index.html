@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+		<script id="Math_XML" type="text/xml"><строка>
+<операнд>σ</операнд>
+<оператор>=</оператор>
+<корень>
+<строка>
+<дробь>
+<строка>
+<число>1</число>
+</строка>
+<строка>
+<операнд>N</операнд>
+</строка>
+</дробь>
+<строка>
+<низверх>
+<строка>
+<оператор>∑</оператор>
+</строка>
+<строка>
+<операнд>i</операнд>
+<оператор>=</оператор>
+<число>1</число>
+</строка>
+<строка>
+<операнд>N</операнд>
+</строка>
+</низверх>
+<строка>
+<верх>
+<строка>
+<оператор >(</оператор>
+<низ>
+<строка>
+<операнд>x</операнд>
+</строка>
+<строка>
+<операнд>i</операнд>
+</строка>
+</низ>
+<оператор>−</оператор>
+<операнд>μ</операнд>
+<оператор >)</оператор>
+</строка>
+<строка>
+<число>2</число>
+</строка>
+</верх>
+</строка>
+</строка>
+</строка>
+</корень>
+<оператор>.</оператор>
+</строка>
+			</script>
+			<script id="SVG_XML" type="text/xml"><root>
+	<графика ширина="640" высота="480">
+		<эллипс id="графика_1" заливка="rgba(255,0,0,0.5)" ободок="white" ширина-ободка="5" cx="206" cy="139" rx="100" ry="100"/>
+		<эллипс id="графика_2" заливка="rgba(0,0,255,0.5)" ободок="white" ширина-ободка="5" cx="108" cy="111" rx="100" ry="100"/>
+		<эллипс id="графика_3" заливка="rgba(0,255,0,0.5)" ободок="white" ширина-ободка="5" cx="134" cy="215" rx="100" ry="100"/>
+	</графика>
+</root>
+			</script>
+		<script id="xslMath" type="text/xsl">
+			<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+
+				<xsl:template match="/">
+					<math xmlns="http://www.w3.org/1998/Math/MathML">
+						<xsl:apply-templates />
+					</math>
+				</xsl:template>
+
+				<xsl:template match="корень">
+			      <msqrt>
+			         <xsl:apply-templates select="*"/>
+			      </msqrt>
+			   </xsl:template>
+
+			   <xsl:template match="строка">
+			      <mrow>
+			         <xsl:apply-templates select="*"/>
+			      </mrow>
+			   </xsl:template>
+
+			   <xsl:template match="операнд">
+			      <mi>
+			         <xsl:value-of select="." />
+			      </mi>
+			   </xsl:template>
+
+			   <xsl:template match="оператор">
+			      <mo>
+			         <xsl:value-of select="." />
+			      </mo>
+			   </xsl:template>
+
+			   <xsl:template match="число">
+			      <mn>
+			         <xsl:value-of select="." />
+			      </mn>
+			   </xsl:template>
+
+			   <xsl:template match="дробь">
+			      <mfrac>
+			         <xsl:apply-templates select="*"/>
+			      </mfrac>
+			   </xsl:template>
+
+			   <xsl:template match="низверх">
+			      <munderover>
+			         <xsl:apply-templates select="*"/>
+			      </munderover>
+			   </xsl:template>
+
+			   <xsl:template match="верх">
+			      <msup>
+			         <xsl:apply-templates select="*"/>
+			      </msup>
+			   </xsl:template>
+
+			   <xsl:template match="низ">
+			      <msub>
+			         <xsl:apply-templates select="*"/>
+			      </msub>
+			   </xsl:template>
+
+			</xsl:stylesheet>
+		</script>
+		<script id="xslSVG" type="text/xml">
+			    <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+			  <xsl:template match="root">
+			    <svg width="{графика/@ширина}" height="{графика/@высота}">
+			      <xsl:apply-templates select="графика/эллипс"/>
+			    </svg>
+			  </xsl:template>
+
+			  <xsl:template match="эллипс">
+			    <ellipse id="{@id}" fill="{@заливка}" stroke="{@ободок}" stroke-width="{@ширина-ободка}" cx="{@cx}" cy="{@cy}" rx="{@rx}" ry="{@ry}"/>
+			  </xsl:template>
+			</xsl:stylesheet>
+		</script>
+		<script>
+			function insertMathML() {
+				const xml_math = document.getElementById('Math_XML').textContent;
+				document.getElementById('xmlDocMath').value = xml_math;                  // добавляем код xml
+			}
+
+			function insertSVG() {
+				const xml_svg = document.getElementById('SVG_XML').textContent;
+				document.getElementById('xmlDocSVG').value = xml_svg;                    // добавляем код xml
+			}
+
+			function transformMath() {
+				const xsltStyles = document.getElementById("xslMath").textContent;
+				const parser = new DOMParser();                                                // нужен для извлечения
+				const xsltStyless = parser.parseFromString(xsltStyles, 'text/xml');            // забираем код стилей
+
+				const xsltProcessor = new XSLTProcessor();                                     // нужен для преобразования
+				xsltProcessor.importStylesheet(xsltStyless);                                   // импортируем стили
+
+				const xmlString = document.getElementById('xmlDocMath').value;
+				const xmlDocument = parser.parseFromString(xmlString, 'text/xml');             // забираем код xml
+
+				const transformedString = xsltProcessor.transformToFragment(xmlDocument, document); // преобразуем в фрагмент DOM
+
+				document.getElementById('ResultMath').appendChild(transformedString);
+				var sp1 = document.createElement("br");
+				document.getElementById('ResultMath').appendChild(sp1);
+			}
+
+			function transformSVG() {
+				const xsltStyles = document.getElementById("xslSVG").textContent;
+				const parser = new DOMParser();                                                // нужен для извлечения
+				const xsltStyless = parser.parseFromString(xsltStyles, 'text/xml');
+
+				const xsltProcessor = new XSLTProcessor();                                     // нужен для преобразования
+				xsltProcessor.importStylesheet(xsltStyless);                                   // импортируем стили
+
+				const xmlString = document.getElementById('xmlDocSVG').value;
+				const xmlDocument = parser.parseFromString(xmlString, 'text/xml');             // забираем код xml
+				
+				const transformedString = xsltProcessor.transformToFragment(xmlDocument, document); // преобразуем в фрагмент DOM
+
+				document.getElementById('ResultSVG').appendChild(transformedString);
+				var sp1 = document.createElement("br");
+				document.getElementById('ResultSVG').appendChild(sp1);
+			}
+
+			function deleteMath() {                                               // очистка поля с результатами для первого задания
+				const resultMath = document.getElementById("ResultMath");
+
+				while (resultMath.firstChild) {
+					resultMath.removeChild(resultMath.firstChild);
+				}
+			}
+
+			function deleteSVG() {                                               // очистка поля с результатами для второго задания
+				const resultMath = document.getElementById("ResultSVG");
+
+				while (resultMath.firstChild) {
+					resultMath.removeChild(resultMath.firstChild);
+				}
+			}
+		</script>
+	</head>
+	<body class="body">
+		<h1 class="author">Lab_XML, Бондарь Артемий</h3>
+		<div class="container">
+			<div class="column">
+				<h3 class="task">Задание1. MathML</h3>
+				<textarea id="xmlDocMath" cols="90" class="code"></textarea><br />
+				<button onclick="insertMathML()" class="add-button">Add code</button>
+				<button onclick="transformMath()" class="transform-button">Transform</button>
+				<button onclick="deleteMath()" class="add-button">Clear</button>
+				<pre id="ResultMath" class="result"></pre>
+			</div>
+			<div class="column">
+				<h3 class="task">Задание2. SVG</h3>
+				<textarea id="xmlDocSVG" cols="90" class="code"></textarea><br />
+				<button onclick="insertSVG()" class="add-button">Add code</button>
+				<button onclick="transformSVG()" class="transform-button">Transform</button>
+				<button onclick="deleteSVG()" class="add-button">Clear</button>
+				<pre id="ResultSVG" class="result"></pre>
+			</div>
+		</div>
+	</body>
+</html>
