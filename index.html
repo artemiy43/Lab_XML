@@ -144,12 +144,12 @@
 			</xsl:stylesheet>
 		</script>
 		<script>
-			function insertMathML() {
+			function addMathML() {
 				const xml_math = document.getElementById('Math_XML').textContent;
 				document.getElementById('xmlDocMath').value = xml_math;                  // добавляем код xml
 			}
 
-			function insertSVG() {
+			function addSVG() {
 				const xml_svg = document.getElementById('SVG_XML').textContent;
 				document.getElementById('xmlDocSVG').value = xml_svg;                    // добавляем код xml
 			}
@@ -199,10 +199,10 @@
 			}
 
 			function deleteSVG() {                                               // очистка поля с результатами для второго задания
-				const resultMath = document.getElementById("ResultSVG");
+				const resultSVG = document.getElementById("ResultSVG");
 
-				while (resultMath.firstChild) {
-					resultMath.removeChild(resultMath.firstChild);
+				while (resultSVG.firstChild) {
+					resultSVG.removeChild(resultSVG.firstChild);
 				}
 			}
 		</script>
@@ -212,16 +212,18 @@
 		<div class="container">
 			<div class="column">
 				<h3 class="task">Задание1. MathML</h3>
-				<textarea id="xmlDocMath" cols="90" class="code"></textarea><br />
-				<button onclick="insertMathML()" class="add-button">Add code</button>
+				<textarea id="xmlDocMath" cols="90" class="code"></textarea>
+				<br />
+				<button onclick="addMathML()" class="add-button">Add code</button>
 				<button onclick="transformMath()" class="transform-button">Transform</button>
 				<button onclick="deleteMath()" class="add-button">Clear</button>
 				<pre id="ResultMath" class="result"></pre>
 			</div>
 			<div class="column">
 				<h3 class="task">Задание2. SVG</h3>
-				<textarea id="xmlDocSVG" cols="90" class="code"></textarea><br />
-				<button onclick="insertSVG()" class="add-button">Add code</button>
+				<textarea id="xmlDocSVG" cols="90" class="code"></textarea>
+				<br />
+				<button onclick="addSVG()" class="add-button">Add code</button>
 				<button onclick="transformSVG()" class="transform-button">Transform</button>
 				<button onclick="deleteSVG()" class="add-button">Clear</button>
 				<pre id="ResultSVG" class="result"></pre>
