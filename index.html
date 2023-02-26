@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="style.css">
-		<script id="Math_XML" type="text/xml"><строка>
+		<script id="Math_XML" type="text/xml"><строка>                     
 <операнд>σ</операнд>
 <оператор>=</оператор>
 <корень>
@@ -68,7 +68,7 @@
 			<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
 				<xsl:template match="/">
-					<math xmlns="http://www.w3.org/1998/Math/MathML">
+					<math xmlns="http://www.w3.org/1998/Math/MathML"> 
 						<xsl:apply-templates />
 					</math>
 				</xsl:template>
@@ -167,7 +167,7 @@
 
 				const transformedString = xsltProcessor.transformToFragment(xmlDocument, document); // преобразуем в фрагмент DOM
 
-				document.getElementById('ResultMath').appendChild(transformedString);
+				document.getElementById('ResultMath').appendChild(transformedString);              // добавляем результат
 				var sp1 = document.createElement("br");
 				document.getElementById('ResultMath').appendChild(sp1);
 			}
@@ -185,7 +185,7 @@
 				
 				const transformedString = xsltProcessor.transformToFragment(xmlDocument, document); // преобразуем в фрагмент DOM
 
-				document.getElementById('ResultSVG').appendChild(transformedString);
+				document.getElementById('ResultSVG').appendChild(transformedString);                // добавляем результат
 				var sp1 = document.createElement("br");
 				document.getElementById('ResultSVG').appendChild(sp1);
 			}
@@ -217,7 +217,7 @@
 				<button onclick="addMathML()" class="add-button">Add code</button>
 				<button onclick="transformMath()" class="transform-button">Transform</button>
 				<button onclick="deleteMath()" class="add-button">Clear</button>
-				<pre id="ResultMath" class="result"></pre>
+				<div id="ResultMath" class="result"></div>
 			</div>
 			<div class="column">
 				<h3 class="task">Задание2. SVG</h3>
@@ -226,7 +226,7 @@
 				<button onclick="addSVG()" class="add-button">Add code</button>
 				<button onclick="transformSVG()" class="transform-button">Transform</button>
 				<button onclick="deleteSVG()" class="add-button">Clear</button>
-				<pre id="ResultSVG" class="result"></pre>
+				<div id="ResultSVG" class="result"></div>
 			</div>
 		</div>
 	</body>
